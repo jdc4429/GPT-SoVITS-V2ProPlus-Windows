@@ -61,7 +61,7 @@ For UVR5 (Vocals/Accompaniment Separation & Reverberation Removal, additionally)
 
 ffmpeg.exe - Entry Point Not Found - The procedure entry point libintl_bind_textdomain_codeset could not be located in the dynamic link library C:\Users\jeffc\anaconda3\envs\SoVITS\Library\bin\gdk_pixbuf-2.0-0.dll.
 
-Fix:
+Fix:<br>
 conda activate SoVITS<br>
 conda install libglib=2.78.4=*_0 gdk-pixbuf -c conda-forge --force-reinstall<br>
 <br>
