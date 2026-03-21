@@ -1,4 +1,4 @@
-<div style="margin-left: 40px;">
+<div style="padding-left: 20px;">
 <h1>GPT-SoVITS V4/V2Pro/V2ProPlus (BEST)</h1><br>
 A Powerful Few-shot Voice Conversion and Text-to-Speech WebUI.<br><br>
 
