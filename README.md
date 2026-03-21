@@ -1,10 +1,11 @@
 <h1>GPT-SoVITS V4/V2Pro/V2ProPlus (BEST)</h1><br>
 A Powerful Few-shot Voice Conversion and Text-to-Speech WebUI.<br><br>
 
-Added requirements.txt files for easier install.  Qwen3-TTS can now run under GPT-SoVITS environment. Made changes to fix them working together.
+Added requirements.txt files for easier install.<br>  
+Qwen3-TTS can now run under GPT-SoVITS environment. Made changes to fix them working together.<br>
 
 
-## Install:
+## Install:<br>
 
 Install in Powershell Admin CMD promt.
 Use powershell script from inside conda env to install.
@@ -18,7 +19,7 @@ conda deactivate
 
 The script takes quite a while to run as it has to download many GB's for the models. 
 
-## Features:
+## Features:<br>
 
 1. **Zero-shot TTS:** Input a 5-second vocal sample and experience instant text-to-speech conversion.
 
@@ -29,7 +30,7 @@ The script takes quite a while to run as it has to download many GB's for the mo
 4. **WebUI Tools:** Integrated tools include voice accompaniment separation, automatic training set segmentation, Chinese ASR, and text labeling, assisting beginners in creating training datasets and GPT/SoVITS models.
 
 
-## Tested Environments:
+## Tested Environments:<br>
 
 | Python Version | PyTorch Version  | Device        |
 | -------------- | ---------------- | ------------- |
@@ -42,12 +43,12 @@ The script takes quite a while to run as it has to download many GB's for the mo
 | Python 3.9     | PyTorch 2.2.2    | CPU           |
 
 
-#### Environment Variables:
+#### Environment Variables:<br>
 
 - `is_half`: Controls whether half-precision (fp16) is enabled. Set to `true` if your GPU supports it to reduce memory usage.
 
 
-## Pretrained Models & other models (Only needed if not installing with Powershell script)
+## Pretrained Models & other models (Only needed if not installing with Powershell script)<br>
 
 Download pretrained models from [GPT-SoVITS Models](https://huggingface.co/lj1995/GPT-SoVITS) and place them in `GPT_SoVITS/pretrained_models`.
 
@@ -57,7 +58,7 @@ For UVR5 (Vocals/Accompaniment Separation & Reverberation Removal, additionally)
 
 
 
-## If you get the below error, run the pip command listed to fix it.
+## If you get the below error, run the pip command listed to fix it.<br>
 
 ffmpeg.exe - Entry Point Not Found - The procedure entry point libintl_bind_textdomain_codeset could not be located in the dynamic link library C:\Users\jeffc\anaconda3\envs\SoVITS\Library\bin\gdk_pixbuf-2.0-0.dll.
 
