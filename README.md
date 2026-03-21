@@ -1,5 +1,3 @@
-<div align="center">
-
 <h1>GPT-SoVITS V4/V2Pro/V2ProPlus (BEST)</h1>
 A Powerful Few-shot Voice Conversion and Text-to-Speech WebUI.<br><br>
 
