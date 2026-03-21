@@ -10,9 +10,9 @@ Qwen3-TTS can now run under GPT-SoVITS environment. Made changes to fix them wor
 Install in Powershell Admin CMD promt.<br>
 Use powershell script from inside conda env to install.<br>
 
-The script may fail with an error stating requirements.txt failed but in my case it did install correctly, I just reran the script again to get to completion message.<br>
-Doing pip install requirements did not make any changes or give any errors.<br>
-
+The script may fail with an error stating requirements.txt failed but in my case it did install correctly, I just reran the script<br>
+again to get to completion message.  Doing pip install requirements did not make any changes or give any errors.<br>
+<br>
 conda create -n SoVITS python=3.10<br>
 conda activate SoVITS<br>
 powershell -File install-FINAL-FIXES.ps1 -Device CU126 -Source HF   (Can select from CU124, CU126, CU128)<br>
