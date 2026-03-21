@@ -111,18 +111,24 @@ def main(args):
     trainer: Trainer = Trainer(
         max_epochs=config["train"]["epochs"],
         accelerator="gpu" if torch.cuda.is_available() else "cpu",
+        # val_check_interval=9999999999999999999999,###不要验证
+        # check_val_every_n_epoch=None,
         limit_val_batches=0,
-        devices=1,
+        devices=-1 if torch.cuda.is_available() else 1,
         benchmark=False,
         fast_dev_run=False,
-        strategy="auto",
+        strategy=DDPStrategy(process_group_backend="nccl" if platform.system() != "Windows" else "gloo")
+        if torch.cuda.is_available()
+        else "auto",
         precision=config["train"]["precision"],
         logger=logger,
         num_sanity_val_steps=0,
         callbacks=[ckpt_callback],
-        use_distributed_sampler=False,
+        use_distributed_sampler=False,  # 非常简单的修改，但解决了采用自定义的 bucket_sampler 下训练步数不一致的问题！
     )
+
     model: Text2SemanticLightningModule = Text2SemanticLightningModule(config, output_dir)
+
     data_module: Text2SemanticDataModule = Text2SemanticDataModule(
         config,
         train_semantic_path=config["train_semantic_path"],

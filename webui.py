@@ -1,7 +1,7 @@
 import os
 import sys
 
-os.environ["version"] = version = "v2Pro"
+os.environ["version"] = version = "v2ProPlus"
 now_dir = os.getcwd()
 sys.path.insert(0, now_dir)
 import warnings
@@ -1401,7 +1401,7 @@ with gr.Blocks(title="GPT-SoVITS WebUI", analytics_enabled=False, js=js, css=css
                     with gr.Column(scale=3):
                         with gr.Row():
                             asr_inp_dir = gr.Textbox(
-                                label=i18n("输入文件夹路径"), value="D:\\GPT-SoVITS\\raw\\xxx", interactive=True
+                                label=i18n("输入文件夹路径"), value="C:\\GPT-SoVITS\\Train", interactive=True
                             )
                             asr_opt_dir = gr.Textbox(
                                 label=i18n("输出文件夹路径"), value="output/asr_opt", interactive=True
@@ -1459,7 +1459,7 @@ with gr.Blocks(title="GPT-SoVITS WebUI", analytics_enabled=False, js=js, css=css
                         with gr.Row():
                             path_list = gr.Textbox(
                                 label=i18n("标注文件路径 (含文件后缀 *.list)"),
-                                value="D:\\RVC1006\\GPT-SoVITS\\raw\\xxx.list",
+                                value="C:\\GPT-SoVITS\\train.list",
                                 interactive=True,
                             )
                             label_info = gr.Textbox(label=process_info(process_name_subfix, "info"))
@@ -1532,14 +1532,14 @@ with gr.Blocks(title="GPT-SoVITS WebUI", analytics_enabled=False, js=js, css=css
                         with gr.Row():
                             inp_text = gr.Textbox(
                                 label=i18n("*文本标注文件"),
-                                value=r"D:\RVC1006\GPT-SoVITS\raw\xxx.list",
+                                value=r"C:\GPT-SoVITS\train.list",
                                 interactive=True,
                                 scale=10,
                             )
                         with gr.Row():
                             inp_wav_dir = gr.Textbox(
                                 label=i18n("*训练集音频文件目录"),
-                                # value=r"D:\RVC1006\GPT-SoVITS\raw\xxx",
+                                # value=r"C:\GPT-SoVITS\Train",
                                 interactive=True,
                                 placeholder=i18n(
                                     "填切割后音频所在目录！读取的音频文件完整路径=该目录-拼接-list文件里波形对应的文件名（不是全路径）。如果留空则使用.list文件里的绝对全路径。"

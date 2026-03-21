@@ -51,14 +51,21 @@ device = "cpu"  # cuda以外的设备，等mps优化后加入
 
 
 def main():
-    # Force single process - NO DISTRIBUTED TRAINING
     if torch.cuda.is_available():
-        n_gpus = 1
+        n_gpus = torch.cuda.device_count()
     else:
         n_gpus = 1
-    
-    # Skip mp.spawn entirely and just call run directly
-    run(0, n_gpus, hps)
+    os.environ["MASTER_ADDR"] = "localhost"
+    os.environ["MASTER_PORT"] = str(randint(20000, 55555))
+
+    mp.spawn(
+        run,
+        nprocs=n_gpus,
+        args=(
+            n_gpus,
+            hps,
+        ),
+    )
 
 
 def run(rank, n_gpus, hps):
@@ -70,18 +77,12 @@ def run(rank, n_gpus, hps):
         writer = SummaryWriter(log_dir=hps.s2_ckpt_dir)
         writer_eval = SummaryWriter(log_dir=os.path.join(hps.s2_ckpt_dir, "eval"))
 
-    # Only initialize distributed if we have multiple GPUs
-#    if n_gpus > 1:
-#        dist.init_process_group(
-#            backend = "gloo" if os.name == "nt" or not torch.cuda.is_available() else "nccl",
-#            init_method="env://",
-#            world_size=n_gpus,
-#            rank=rank,
-#        )
-#    else:
-        # For single GPU/CPU, create a dummy process group or skip
-        if rank == 0:
-            print("Running in single process mode")
+    dist.init_process_group(
+        backend = "gloo" if os.name == "nt" or not torch.cuda.is_available() else "nccl",
+        init_method="env://?use_libuv=False",
+        world_size=n_gpus,
+        rank=rank,
+    )
     torch.manual_seed(hps.train.seed)
     if torch.cuda.is_available():
         torch.cuda.set_device(rank)
@@ -195,15 +196,14 @@ def run(rank, n_gpus, hps):
         betas=hps.train.betas,
         eps=hps.train.eps,
     )
-    if torch.cuda.is_available() and n_gpus > 1:
+    if torch.cuda.is_available():
         net_g = DDP(net_g, device_ids=[rank], find_unused_parameters=True)
         net_d = DDP(net_d, device_ids=[rank], find_unused_parameters=True)
-    elif not torch.cuda.is_available():
+    else:
         net_g = net_g.to(device)
         net_d = net_d.to(device)
-    # else: single GPU — already on cuda(rank), do nothing
 
-    try:
+    try:  # 如果能加载自动resume
         _, _, _, epoch_str = utils.load_checkpoint(
             utils.latest_checkpoint_path("%s/logs_s2_%s" % (hps.data.exp_dir, hps.model.version), "D_*.pth"),
             net_d,
@@ -238,12 +238,12 @@ def run(rank, n_gpus, hps):
                     torch.load(hps.train.pretrained_s2G, map_location="cpu", weights_only=False)["weight"],
                     strict=False,
                 )
-                if hasattr(net_g, "module")
+                if torch.cuda.is_available()
                 else net_g.load_state_dict(
                     torch.load(hps.train.pretrained_s2G, map_location="cpu", weights_only=False)["weight"],
                     strict=False,
                 ),
-            )
+            )  ##测试不加载优化器
         if (
             hps.train.pretrained_s2D != ""
             and hps.train.pretrained_s2D != None
@@ -254,10 +254,9 @@ def run(rank, n_gpus, hps):
             print(
                 "loaded pretrained %s" % hps.train.pretrained_s2D,
                 net_d.module.load_state_dict(
-                    torch.load(hps.train.pretrained_s2D, map_location="cpu", weights_only=False)["weight"],
-                    strict=False,
+                    torch.load(hps.train.pretrained_s2D, map_location="cpu", weights_only=False)["weight"], strict=False
                 )
-                if hasattr(net_d, "module")
+                if torch.cuda.is_available()
                 else net_d.load_state_dict(
                     torch.load(hps.train.pretrained_s2D, map_location="cpu", weights_only=False)["weight"],
                 ),

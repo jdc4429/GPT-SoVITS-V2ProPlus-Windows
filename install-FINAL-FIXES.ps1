@@ -1,20 +1,13 @@
 Param (
-    [Parameter(Mandatory=$true)][ValidateSet("CU126", "CU128", "CPU")][string]$Device,
+    [Parameter(Mandatory=$true)][ValidateSet("CU124", "CU126", "CU128", "CPU")][string]$Device,
     [Parameter(Mandatory=$true)][ValidateSet("HF", "HF-Mirror", "ModelScope")][string]$Source,
     [switch]$DownloadUVR5
 )
-
 $global:ErrorActionPreference = 'Stop'
-
-trap {
-    Write-ErrorLog $_
-}
-
 function Write-ErrorLog {
     param (
         [System.Management.Automation.ErrorRecord]$ErrorRecord
     )
-
     Write-Host "`n[ERROR] Command failed:" -ForegroundColor Red
     if (-not $ErrorRecord.Exception.Message){
     } else {
@@ -23,7 +16,6 @@ function Write-ErrorLog {
             Write-Host "    $_"
         }
     }
-
     Write-Host "Command:" -ForegroundColor Red  -NoNewline
     Write-Host " $($ErrorRecord.InvocationInfo.Line)".Replace("`r", "").Replace("`n", "")
     Write-Host "Location:" -ForegroundColor Red -NoNewline
@@ -35,7 +27,13 @@ function Write-ErrorLog {
 
     exit 1
 }
-
+trap {
+    $msg = $_.Exception.Message
+    if ($msg -match "FutureWarning|DeprecationWarning|free.*channel") {
+        continue
+    }
+    Write-ErrorLog $_
+}
 function Write-Info($msg) {
     Write-Host "[INFO]:" -ForegroundColor Green -NoNewline
     Write-Host " $msg"
@@ -44,44 +42,32 @@ function Write-Success($msg) {
     Write-Host "[SUCCESS]:" -ForegroundColor Blue -NoNewline
     Write-Host " $msg"
 }
-
-
+function Test-ZipValid {
+    param([string]$Path)
+    try {
+        Add-Type -AssemblyName System.IO.Compression.FileSystem
+        $zip = [System.IO.Compression.ZipFile]::OpenRead($Path)
+        $zip.Dispose()
+        return $true
+    } catch {
+        return $false
+    }
+}
 function Invoke-Conda {
     param (
         [Parameter(ValueFromRemainingArguments = $true)]
         [string[]]$Args
     )
 
-    $output = & conda install -y -q -c conda-forge @Args 2>&1
-    $exitCode = $LASTEXITCODE
-
-    if ($exitCode -ne 0) {
-        Write-Host "Conda Install $Args Failed" -ForegroundColor Red
-        $errorMessages = @()
-        foreach ($item in $output) {
-            if ($item -is [System.Management.Automation.ErrorRecord]) {
-                $msg = $item.Exception.Message
-                Write-Host "$msg" -ForegroundColor Red
-                $errorMessages += $msg
-            }
-            else {
-                Write-Host $item
-                $errorMessages += $item
-            }
-        }
-        throw [System.Exception]::new(($errorMessages -join "`n"))
-    }
+    & conda install -y -c conda-forge $Args
 }
-
 function Invoke-Pip {
     param (
         [Parameter(ValueFromRemainingArguments = $true)]
         [string[]]$Args
     )
-    
     $output = & pip install @Args 2>&1
     $exitCode = $LASTEXITCODE
-    
     if ($exitCode -ne 0) {
         $errorMessages = @()
         Write-Host "Pip Install $Args Failed" -ForegroundColor Red
@@ -99,7 +85,6 @@ function Invoke-Pip {
         throw [System.Exception]::new(($errorMessages -join "`n"))
     }
 }
-
 function Invoke-Download {
     param (
         [Parameter(Mandatory = $true)]
@@ -108,44 +93,45 @@ function Invoke-Download {
         [Parameter()]
         [string]$OutFile
     )
-
     try {
-        $params = @{
-            Uri = $Uri
+        if ($OutFile -and (Test-Path $OutFile)) {
+            $isZip = $OutFile -match "\.zip$"
+            $isTar = $OutFile -match "\.tar\.gz$"
+            if ($isZip -and -not (Test-ZipValid $OutFile)) {
+                Write-Info "Removing corrupt/incomplete zip: $OutFile"
+                Remove-Item $OutFile -Force
+            } elseif ($isZip -and (Test-ZipValid $OutFile)) {
+                Write-Info "$OutFile already exists and is valid, skipping download"
+                return
+            } elseif ($isTar) {
+                Write-Info "Removing existing tar.gz to ensure clean download: $OutFile"
+                Remove-Item $OutFile -Force
+            }
         }
-
-        if ($OutFile) {
-            $params["OutFile"] = $OutFile
-        }
-
+        $params = @{ Uri = $Uri }
+        if ($OutFile) { $params["OutFile"] = $OutFile }
         $null = Invoke-WebRequest @params -ErrorAction Stop
-
     } catch {
         Write-Host "Failed to download:" -ForegroundColor Red
         Write-Host "  $Uri"
         throw
     }
 }
-
 function Invoke-Unzip {
     param($ZipPath, $DestPath)
     Expand-Archive -Path $ZipPath -DestinationPath $DestPath -Force
     Remove-Item $ZipPath -Force
 }
-
 chcp 65001
-Set-Location $PSScriptRoot
-
+if ($PSScriptRoot) { Set-Location $PSScriptRoot }
 Write-Info "Installing FFmpeg & CMake..."
-Invoke-Conda  ffmpeg cmake
+Invoke-Conda ffmpeg cmake
 Write-Success "FFmpeg & CMake Installed"
-
 $PretrainedURL  = ""
 $G2PWURL        = ""
 $UVR5URL        = ""
 $NLTKURL        = ""
 $OpenJTalkURL   = ""
-
 switch ($Source) {
     "HF" {
         Write-Info "Download Model From HuggingFace"
@@ -172,7 +158,6 @@ switch ($Source) {
         $OpenJTalkURL  = "https://www.modelscope.cn/models/XXXXRT/GPT-SoVITS-Pretrained/resolve/master/open_jtalk_dic_utf_8-1.11.tar.gz"
     }
 }
-
 if (-not (Test-Path "GPT_SoVITS/pretrained_models/sv")) {
     Write-Info "Downloading Pretrained Models..."
     Invoke-Download -Uri $PretrainedURL -OutFile "pretrained_models.zip"
@@ -182,8 +167,6 @@ if (-not (Test-Path "GPT_SoVITS/pretrained_models/sv")) {
     Write-Info "Pretrained Model Exists"
     Write-Info "Skip Downloading Pretrained Models"
 }
-
-
 if (-not (Test-Path "GPT_SoVITS/text/G2PWModel")) {
     Write-Info "Downloading G2PWModel..."
     Invoke-Download -Uri $G2PWURL -OutFile "G2PWModel.zip"
@@ -193,7 +176,6 @@ if (-not (Test-Path "GPT_SoVITS/text/G2PWModel")) {
     Write-Info "G2PWModel Exists"
     Write-Info "Skip Downloading G2PWModel"
 }
-
 if ($DownloadUVR5) {
     if (-not (Test-Path "tools/uvr5/uvr5_weights")) {
         Write-Info "Downloading UVR5 Models..."
@@ -205,37 +187,48 @@ if ($DownloadUVR5) {
         Write-Info "Skip Downloading UVR5 Models"
     }
 }
-
 switch ($Device) {
-    "CU128" {
-        Write-Info "Installing PyTorch For CUDA 12.8..."
-        Invoke-Pip torch torchcodec --index-url "https://download.pytorch.org/whl/cu128"
+    "CU124" {
+        Write-Info "Installing PyTorch For CUDA 12.4..."
+        Invoke-Pip torch --index-url "https://download.pytorch.org/whl/cu124"
     }
     "CU126" {
         Write-Info "Installing PyTorch For CUDA 12.6..."
-        Invoke-Pip torch torchcodec --index-url "https://download.pytorch.org/whl/cu126"
+        Invoke-Pip torch --index-url "https://download.pytorch.org/whl/cu126"
+    }
+    "CU128" {
+        Write-Info "Installing PyTorch For CUDA 12.8..."
+        Invoke-Pip torch --index-url "https://download.pytorch.org/whl/cu128"
     }
     "CPU" {
         Write-Info "Installing PyTorch For CPU..."
-        Invoke-Pip torch torchcodec --index-url "https://download.pytorch.org/whl/cpu"
+        Invoke-Pip torch --index-url "https://download.pytorch.org/whl/cpu"
     }
 }
 Write-Success "PyTorch Installed"
-
 Write-Info "Installing Python Dependencies From requirements.txt..."
 Invoke-Pip -r extra-req.txt --no-deps
 Invoke-Pip -r requirements.txt
 Write-Success "Python Dependencies Installed"
-
-Write-Info "Downloading NLTK Data..."
-Invoke-Download -Uri $NLTKURL -OutFile "nltk_data.zip"
-Invoke-Unzip "nltk_data.zip" (python -c "import sys; print(sys.prefix)").Trim()
-
-Write-Info "Downloading Open JTalk Dict..."
-Invoke-Download -Uri $OpenJTalkURL -OutFile "open_jtalk_dic_utf_8-1.11.tar.gz"
-$target = (python -c "import os, pyopenjtalk; print(os.path.dirname(pyopenjtalk.__file__))").Trim()
-tar -xzf open_jtalk_dic_utf_8-1.11.tar.gz -C $target
-Remove-Item "open_jtalk_dic_utf_8-1.11.tar.gz" -Force
-Write-Success "Open JTalk Dic Downloaded"
-
+$nltkTarget = (python -c "import sys; print(sys.prefix)").Trim()
+if (-not (Test-Path "$nltkTarget\nltk_data")) {
+    Write-Info "Downloading NLTK Data..."
+    Invoke-Download -Uri $NLTKURL -OutFile "nltk_data.zip"
+    Invoke-Unzip "nltk_data.zip" $nltkTarget
+    Write-Success "NLTK Data Downloaded"
+} else {
+    Write-Info "NLTK Data Exists"
+    Write-Info "Skip Downloading NLTK Data"
+}
+$jtalkTarget = (python -c "import os, pyopenjtalk; print(os.path.dirname(pyopenjtalk.__file__))").Trim()
+if (-not (Test-Path "$jtalkTarget\open_jtalk_dic_utf_8-1.11")) {
+    Write-Info "Downloading Open JTalk Dict..."
+    Invoke-Download -Uri $OpenJTalkURL -OutFile "open_jtalk_dic_utf_8-1.11.tar.gz"
+    tar -xzf open_jtalk_dic_utf_8-1.11.tar.gz -C $jtalkTarget
+    Remove-Item "open_jtalk_dic_utf_8-1.11.tar.gz" -Force
+    Write-Success "Open JTalk Dict Downloaded"
+} else {
+    Write-Info "Open JTalk Dict Exists"
+    Write-Info "Skip Downloading Open JTalk Dict"
+}
 Write-Success "Installation Completed"

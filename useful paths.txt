@@ -1,0 +1,125 @@
+C:\GPT-SoVITS\train.list
+C:\GPT-SoVITS\Train                          (For Audio dataset folder) train-audio.wav
+
+C:\GPT-SoVITS\
+
+USE UNDERSCORES AND NOT DASHES, THE DASH BREAKS THE TRAINING!
+
+Text labelling file
+C:\GPT-SoVITS\output\asr_opt\Train.list
+
+C:\GPT-SoVITS\logs\xxx\logs_s1_v3
+logs/xxx/logs_s1_v3/ckpt/     ← DELETE THIS ENTIRE FOLDER IF EPOCH TOO HIGH TO TRAIN LOWER EPOCHS
+
+It's just that you keep glancing at the door. That's all I meant.  If anyone bothers you again let me know, I'm security chief Odo my office is just across the promenade, I have to go
+
+this is a test of the voice cloning ability of this model in the voice of Odo from Deep Space Nine
+
+so far best clone for Odo seems to be.. Tried on v3 and v4 but v4 does not seem to work right
+GPT_weights_v3/xxx-e15.ckpt
+SoVITS_weights_v3/xxx_e3_s0_l16.pth
+Sampling steps 16
+English for reference audio and inference language
+Speech rate 0.85
+
+Deepseek states to use 32K (16 or 24bit) WAV audio files for encoding. Each audio clip cannot be longer than 20 seconds.
+
+
+
+Qwen3-TTS Supported tags include:
+
+[laugh] or [laughter]
+
+[sigh]
+
+[gasp]
+
+[chuckle]
+
+[groan]
+
+[cough], [sniff], [shush]
+
+
+
+Barth stuff - yyy/zzz
+
+Example text: 
+Hey, This is Barth, welcome to my YouTube channel.
+Can you tell this audio was created by voice cloning software?
+
+For small reference sample
+Filename: Dell r730  - Short sample.wav
+Text: If You have any questions or comment, leave them in the section and as always like and subscribe.  Have a good day.
+
+Train.list:
+
+C:\GPT-SoVITS\Train\Dell r730-1.wav|Train|EN|Okay, I want to do a quick video for installing a second video card in my R730 rack server. I had problems here with the power cable for the second R. As you can see, there's not a lot of room and there was no way to route the power cable. You can see here...
+C:\GPT-SoVITS\Train\Dell r730-10.wav|Train|EN|and it was just too hard to get the angle correct to slide it into the riser being installed so anyways i had to take it out again anyways because i had to do that um but for me putting the riser on the card outside the machine and then installing it that's what we're
+C:\GPT-SoVITS\Train\Dell r730-11.wav|Train|EN|best for me. So anyways, a couple of tips on installing a second card in your rack server here.
+C:\GPT-SoVITS\Train\Dell r730-2.wav|Train|EN|comes out of the device out of the card. This is a Tesla P100. You can see it comes out of that. There's no way to get it to come over here to the riser where you need it to plug in. So what I wound up having to do, I tried going through the air vent here and coming out this way and going over.
+C:\GPT-SoVITS\Train\Dell r730-3.wav|Train|EN|over this little like indentation here go down but then the cables not long enough so what i wound up doing was just in case you run into the same problem you can actually run this underneath here and have it come out the side let me see if i can get the light in there you can see it comes up
+C:\GPT-SoVITS\Train\Dell r730-4.wav|Train|EN|the side, doubles over, and then goes into the riser. I couldn't find any other way. If anybody has any ideas for something better, let me know, and I'll be sure to update this and do a video for it. The only downside is, you see in here,
+C:\GPT-SoVITS\Train\Dell r730-5.wav|Train|EN|I don't think it'll be for what I'm doing and what most people are doing at home. I don't think it'll be an issue. So anyways, that's how you install a second one in. Also, how I did it was I have this weird...
+C:\GPT-SoVITS\Train\Dell r730-6.wav|Train|EN|On the edge of the card there's this captive screw so you can't undo it.
+C:\GPT-SoVITS\Train\Dell r730-7.wav|Train|EN|proper way to, I forget what the name of this is, but it's like a holder to hold the video card in place. This one worked fine on my P40, so it didn't have that device. I tried to use a screwdriver and so forth to back that captive screw out, but it does not want to come out.
+C:\GPT-SoVITS\Train\Dell r730-8.wav|Train|EN|So anyways, what I did was I just decided just to put this over here and just let it, it's not going anywhere. And I'll reinstall it if I take the card out or if I sell the server. But for right now, that's installed.
+C:\GPT-SoVITS\Train\Dell r730-9.wav|Train|EN|Also, the way that I did it, there's a little button here you press, and this whole riser actually pulls out. I installed the riser on the card and then installed the card in the machine. I found that easier. Also, beware, there's a little tab here that goes over. But I found that easier. I tried it both.
+
+
+
+Recommended Changes for using v2ProPlus for Fine Tunning:
+
+1Ba - SoVITS Training (Vocoder/Music Generation)
+The SoVITS model learns the voice texture (timbre, pronunciation). It is prone to overfitting and collapse if trained too long.
+
+Batch size per GPU: 4
+
+Verdict: Good. Keep this.
+
+Reason: This is a standard batch size for the 1Ba stage. Lowering it (to 2) can make training unstable; raising it (to 8) requires significantly more VRAM (24GB+) without a massive quality gain.
+
+Total epochs: 8
+
+Verdict: Reduce to 5 or 6.
+
+Reason: For the v2 ProPlus model, training the SoVITS module for 8 epochs is often too aggressive. This stage usually converges very quickly (around epoch 3-5). Training to 8 increases the risk of overfitting (the model sounds "scratchy," "robotic," or "metallic") or catastrophic forgetting of the base model weights.
+
+Text model learning rate weighting: 0.4
+
+Verdict: Good for clean data; reduce to 0.2 - 0.3 for noisy data.
+
+Reason: This controls how much influence the text encoder has. 0.4 is the default and works well if your dataset has clean audio and accurate transcripts. If your dataset has background noise, misalignments, or varied emotional prosody, lowering this prevents the model from trying to "memorize" the noise.
+
+Save frequency (save_every_epoch): 4
+
+Verdict: Change to 1.
+
+Reason: You have Total epochs set to 8. Saving every 4 epochs means you will only get weight files at epoch 4 and epoch 8. If the model collapses at epoch 7, you lose all progress. Save every 1 epoch so you can manually select the best checkpoint (usually epoch 3-5) for the GPT stage.
+
+1Bb - GPT Training (Semantic/Language Model)
+The GPT model learns the prosody (rhythm, emotion, intonation). This stage is computationally heavier and requires more careful epoch management to avoid "hallucinations" or stuttering.
+
+Batch size per GPU: 4
+
+Verdict: Consider reducing to 2 if you experience CUDA OOM (Out of Memory).
+
+Reason: GPT training on v2 ProPlus consumes significant VRAM (often 16GB-24GB for a batch size of 4). If your GPU has less than 24GB VRAM, set this to 2 to ensure stability.
+
+Total training epochs (total_epoch): 15
+
+Verdict: Reduce to 8 - 12.
+
+Reason: 15 epochs is generally too high for most datasets (especially if you have less than 30 minutes of audio). High epochs here cause the GPT to memorize the dataset rather than generalize, resulting in a model that only speaks the training sentences well but fails on novel text, often producing stuttering, repeated phrases, or gibberish. Aim for 8-12 epochs and pick the checkpoint with the lowest validation loss.
+
+Save frequency (save_every_epoch): 5
+
+Verdict: Change to 1.
+
+Reason: Similar to SoVITS, you want a checkpoint for every epoch. GPT performance is not linear; the best model is rarely the final epoch. Saving every 5 epochs forces you to guess or test blindly. Save every epoch so you can run inference tests to find the optimal one (usually epoch 6-10).
+
+Enable DPO Training:
+
+Verdict: Disable (Unchecked) for first-time training.
+
+Reason: DPO (Direct Preference Optimization) is an experimental feature in v2 ProPlus intended to refine the model against specific negative behaviors (like stuttering). Unless you have a prepared preference dataset (pairs of "good" vs "bad" outputs for the specific voice you are training), enabling this often degrades the naturalness of the voice.
