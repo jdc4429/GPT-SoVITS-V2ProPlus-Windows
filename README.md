@@ -7,7 +7,7 @@ Qwen3-TTS can now run under GPT-SoVITS environment. Made changes to fix them wor
 
 ## Install:<br>
 
-Install in Powershell Admin CMD promt.<br>
+Install in Powershell Administrator promt.<br>
 Use powershell script from inside conda env to install.<br>
 
 The script may fail with an error stating requirements.txt failed but in my case it did install correctly, I just reran the script<br>
