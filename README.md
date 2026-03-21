@@ -13,7 +13,7 @@ Use powershell script from inside conda env to install.<br>
 The script may fail with an error stating requirements.txt failed but in my case it did install correctly, I just reran the script<br>
 again to get to completion message.  Doing pip install -r requirements.txt did not make any changes or give any errors.<br>
 <br>
-conda create -n SoVITS python=3.10<br>
+conda create -n SoVITS python=3.10.20<br>
 conda activate SoVITS<br>
 powershell -File install-FINAL-FIXES.ps1 -Device CU126 -Source HF  (Select CU124, CU126, or CU128) (Select from HF, HF-Mirror, ModelScope)<br>
 <br>
