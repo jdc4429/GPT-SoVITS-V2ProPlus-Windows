@@ -2,10 +2,10 @@
 A Powerful Few-shot Voice Conversion and Text-to-Speech WebUI.<br><br>
 
 Added requirements.txt files for easier install.<br>  
-Qwen3-TTS can now run under GPT-SoVITS environment. Made changes to fix them working together.<br>
-
 
 ## Install:<br>
+Qwen3-TTS can now run under GPT-SoVITS environment. Made changes to fix them working together.<br>
+Link to compatible Qwen3-TTS package: https://github.com/jdc4429/Qwen3-TTS-Windows
 
 Install in Powershell Administrator promt.<br>
 Use powershell script from inside conda env to install.<br>
