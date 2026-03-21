@@ -1,4 +1,3 @@
-<div style="margin-left: 60px; max-width: 800px;">
 <h1>GPT-SoVITS V4/V2Pro/V2ProPlus (BEST)</h1><br>
 A Powerful Few-shot Voice Conversion and Text-to-Speech WebUI.<br><br>
 
@@ -16,7 +15,7 @@ again to get to completion message.  Doing pip install -r requirements.txt did n
 <br>
 conda create -n SoVITS python=3.10<br>
 conda activate SoVITS<br>
-powershell -File install-FINAL-FIXES.ps1 -Device CU126 -Source HF  (Can select from CU124, CU126, CU128) (Can select from HF, HF-Mirror, ModelScope)<br>
+powershell -File install-FINAL-FIXES.ps1 -Device CU126 -Source HF  (Select CU124, CU126, or CU128) (Select from HF, HF-Mirror, ModelScope)<br>
 <br>
 The script takes quite a while to run as it has to download many GB's for the models.<br>
 
