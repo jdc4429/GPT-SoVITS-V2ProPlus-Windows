@@ -1,4 +1,4 @@
-<h1>GPT-SoVITS V4/V2Pro/V2ProPlus (BEST)</h1>
+<h1>GPT-SoVITS V4/V2Pro/V2ProPlus (BEST)</h1><br>
 A Powerful Few-shot Voice Conversion and Text-to-Speech WebUI.<br><br>
 
 Added requirements.txt files for easier install.  Qwen3-TTS can now run under GPT-SoVITS environment. Made changes to fix them working together.
