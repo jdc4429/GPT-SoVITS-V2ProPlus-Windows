@@ -15,6 +15,8 @@ again to get to completion message.  Doing pip install -r requirements.txt did n
 <br>
 conda create -n TTS python=3.10.20<br>
 conda activate TTS<br>
+https://github.com/jdc4429/SoVITS-V2ProPlus-Windows.git<br>
+cd GPT-SoVITS-V2ProPlus-Windows<br>
 powershell -File install-FINAL-FIXES.ps1 -Device CU126 -Source HF  (Select CU124, CU126, or CU128) (Select from HF, HF-Mirror, ModelScope)<br>
 <br>
 The script takes quite a while to run as it has to download many GB's for the models.<br>
