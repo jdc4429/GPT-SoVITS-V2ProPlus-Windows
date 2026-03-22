@@ -14,7 +14,7 @@ The script may fail with an error stating requirements.txt failed but in my case
 script again to get to completion message.  Doing pip install -r requirements.txt did not make any changes or give any errors.<br>
 <br>
 ```bash
-conda create -n TTS python=3.10.20
+conda create -n TTS python=3.10.20 -y
 conda activate TTS
 ```
 ```bash
