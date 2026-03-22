@@ -16,6 +16,8 @@ script again to get to completion message.  Doing pip install -r requirements.tx
 ```bash
 conda create -n TTS python=3.10.20
 conda activate TTS
+```
+```bash
 git clone https://github.com/jdc4429/SoVITS-V2ProPlus-Windows.git
 cd GPT-SoVITS-V2ProPlus-Windows
 powershell -File install-FINAL-FIXES.ps1 -Device CU126 -Source HF
