@@ -10,8 +10,8 @@ Link to compatible Qwen3-TTS package: https://github.com/jdc4429/Qwen3-TTS-Windo
 Install in Powershell Administrator promt.<br>
 Use powershell script from inside conda env to install.<br>
 
-The script may fail with an error stating requirements.txt failed but in my case it did install correctly, I just reran the script<br>
-again to get to completion message.  Doing pip install -r requirements.txt did not make any changes or give any errors.<br>
+The script may fail with an error stating requirements.txt failed but in my case it did install correctly, I just reran the<br>
+script again to get to completion message.  Doing pip install -r requirements.txt did not make any changes or give any errors.<br>
 <br>
 ```bash
 conda create -n TTS python=3.10.20
