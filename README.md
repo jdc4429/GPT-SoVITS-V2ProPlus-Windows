@@ -18,7 +18,7 @@ conda create -n TTS python=3.10.20 -y
 conda activate TTS
 ```
 ```bash
-git clone https://github.com/jdc4429/SoVITS-V2ProPlus-Windows.git
+git clone https://github.com/jdc4429/GPT-SoVITS-V2ProPlus-Windows.git
 cd GPT-SoVITS-V2ProPlus-Windows
 powershell -File install-FINAL-FIXES.ps1 -Device CU126 -Source HF
 ```
