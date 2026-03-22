@@ -126,6 +126,8 @@ chcp 65001
 if ($PSScriptRoot) { Set-Location $PSScriptRoot }
 Write-Info "Installing FFmpeg & CMake..."
 Invoke-Conda ffmpeg cmake
+Write-Info "Fixing gdk-pixbuf DLL loader issue on Windows..."
+& conda install -y -c conda-forge "libglib=*=*_0" gdk-pixbuf --force-reinstall
 Write-Success "FFmpeg & CMake Installed"
 $PretrainedURL  = ""
 $G2PWURL        = ""
@@ -207,6 +209,7 @@ switch ($Device) {
 }
 Write-Success "PyTorch Installed"
 Write-Info "Installing Python Dependencies From requirements.txt..."
+Invoke-Pip backports.zstd --force-reinstall --ignore-installed
 Invoke-Pip -r extra-req.txt --no-deps
 Invoke-Pip -r requirements.txt
 Write-Success "Python Dependencies Installed"
