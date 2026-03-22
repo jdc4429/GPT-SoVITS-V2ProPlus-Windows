@@ -209,7 +209,8 @@ switch ($Device) {
 }
 Write-Success "PyTorch Installed"
 Write-Info "Installing Python Dependencies From requirements.txt..."
-Invoke-Pip backports.zstd --force-reinstall --ignore-installed
+Write-Info "Cleaning up backports.zstd..."
+Invoke-Pip --no-cache-dir backports.zstd==1.0.0
 Invoke-Pip -r extra-req.txt --no-deps
 Invoke-Pip -r requirements.txt
 Write-Success "Python Dependencies Installed"
