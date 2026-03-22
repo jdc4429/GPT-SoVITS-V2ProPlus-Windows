@@ -1,5 +1,5 @@
 Param (
-    [Parameter(Mandatory=$true)][ValidateSet("CU124", "CU126", "CU128", "CPU")][string]$Device,
+    [Parameter(Mandatory=$true)][ValidateSet("CU124", "CU126", "CU128", "CU130", "CPU")][string]$Device,
     [Parameter(Mandatory=$true)][ValidateSet("HF", "HF-Mirror", "ModelScope")][string]$Source,
     [switch]$DownloadUVR5
 )
@@ -125,9 +125,12 @@ function Invoke-Unzip {
 }
 chcp 65001
 if ($PSScriptRoot) { Set-Location $PSScriptRoot }
-Write-Info "Installing FFmpeg & CMake..."
-Invoke-Conda ffmpeg cmake
+Write-Info "Installing CMake..."
+Invoke-Conda cmake
 Write-Success "FFmpeg & CMake Installed"
+Write-Info "Installing FFmpeg..."
+Invoke-Pip ffmpeg-python
+Write-Success "FFmpeg Installed"
 $PretrainedURL  = ""
 $G2PWURL        = ""
 $UVR5URL        = ""
@@ -200,6 +203,10 @@ switch ($Device) {
     "CU128" {
         Write-Info "Installing PyTorch For CUDA 12.8..."
         Invoke-Pip torch --index-url "https://download.pytorch.org/whl/cu128"
+    }
+    "CU130" {
+        Write-Info "Installing PyTorch For CUDA 13.0..."
+        Invoke-Pip torch --index-url "https://download.pytorch.org/whl/cu130"
     }
     "CPU" {
         Write-Info "Installing PyTorch For CPU..."
