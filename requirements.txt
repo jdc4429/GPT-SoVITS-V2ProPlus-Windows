@@ -1,6 +1,7 @@
 --no-binary=opencc
 numpy<2.0
 scipy
+hf_xet
 tensorboard
 librosa==0.10.2
 numba
