@@ -14,10 +14,10 @@ The script may fail with an error stating requirements.txt failed but in my case
 again to get to completion message.  Doing pip install -r requirements.txt did not make any changes or give any errors.<br>
 <br>
 ```bash
-conda create -n TTS python=3.10.20<br>
-conda activate TTS<br>
-git clone https://github.com/jdc4429/SoVITS-V2ProPlus-Windows.git<br>
-cd GPT-SoVITS-V2ProPlus-Windows<br>
+conda create -n TTS python=3.10.20
+conda activate TTS
+git clone https://github.com/jdc4429/SoVITS-V2ProPlus-Windows.git
+cd GPT-SoVITS-V2ProPlus-Windows
 powershell -File install-FINAL-FIXES.ps1 -Device CU126 -Source HF
 ```
 Options for Powershell script: (Select from CU124, CU126, or CU128) (Select from HF, HF-Mirror, ModelScope)<br>
