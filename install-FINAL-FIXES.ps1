@@ -209,8 +209,10 @@ switch ($Device) {
 Write-Success "PyTorch Installed"
 Write-Info "Installing Python Dependencies From requirements.txt..."
 Invoke-Pip -r extra-req.txt --no-deps
+$global:ErrorActionPreference = 'Continue'
 Invoke-Pip -r requirements.txt
 Write-Success "Python Dependencies Installed"
+$global:ErrorActionPreference = 'Stop'
 $nltkTarget = (python -c "import sys; print(sys.prefix)").Trim()
 if (-not (Test-Path "$nltkTarget\nltk_data")) {
     Write-Info "Downloading NLTK Data..."
