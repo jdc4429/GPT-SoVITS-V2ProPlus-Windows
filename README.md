@@ -12,6 +12,8 @@ Run the following commands to create an environment and install the neccessary f
 conda create -n GPT python=3.10.20 -y
 conda activate GPT
 ```
+then run:
+
 ```bash
 git clone https://github.com/jdc4429/GPT-SoVITS-V2ProPlus-Windows.git
 cd GPT-SoVITS-V2ProPlus-Windows
