@@ -19,7 +19,7 @@ pyopenjtalk>=0.4.1
 g2p_en
 modelscope
 sentencepiece
-transformers>=4.43,<=4.50
+transformers==4.50
 huggingface-hub>=0.26.0
 peft<0.18.0
 chardet==7.2.0
