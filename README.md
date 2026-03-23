@@ -6,8 +6,8 @@ A Powerful Few-shot Voice Conversion and Text-to-Speech WebUI.<br><br>
 
 Link to Qwen3-TTS package: https://github.com/jdc4429/Qwen3-TTS-Windows
 
-Use the Powershell script from inside the conda env to install.<br>
-<br>
+Run the following commands to create an environment and install the neccessary files:
+
 ```bash
 conda create -n GPT python=3.10.20 -y
 conda activate GPT
