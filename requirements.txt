@@ -1,4 +1,6 @@
 --no-binary=opencc
+fastapi[standard]>=0.115.2
+gradio<5
 zstandard
 urllib3
 numpy<2.0
@@ -8,7 +10,6 @@ tensorboard
 librosa==0.10.2
 numba
 pytorch-lightning>=2.4
-gradio<5
 ffmpeg-python
 onnxruntime
 onnxruntime-gpu
@@ -38,7 +39,6 @@ g2pk2
 ko_pron
 opencc
 python_mecab_ko; sys_platform != 'win32'
-fastapi[standard]>=0.115.2
 x_transformers
 torchmetrics<=1.5
 pydantic<=2.10.6
