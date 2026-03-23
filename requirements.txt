@@ -1,4 +1,6 @@
 --no-binary=opencc
+zstandard
+urllib3
 numpy<2.0
 scipy
 hf_xet
@@ -8,8 +10,8 @@ numba
 pytorch-lightning>=2.4
 gradio<5
 ffmpeg-python
-onnxruntime; platform_machine == "aarch64" or platform_machine == "arm64"
-onnxruntime-gpu; platform_machine == "x86_64" or platform_machine == "AMD64"
+onnxruntime
+onnxruntime-gpu
 tqdm
 funasr==1.0.27
 cn2an
@@ -20,8 +22,9 @@ torchaudio
 modelscope
 sentencepiece
 transformers>=4.43,<=4.50
+huggingface-hub>=0.26.0
 peft<0.18.0
-chardet
+chardet==7.2.0
 PyYAML
 psutil
 jieba_fast
