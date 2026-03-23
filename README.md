@@ -3,17 +3,14 @@ A Powerful Few-shot Voice Conversion and Text-to-Speech WebUI.<br><br>
 
 
 ## Install:<br>
-Qwen3-TTS can now run under the GPT-SoVITS environment. Made changes to fix them working together.<br>
-Link to compatible Qwen3-TTS package: https://github.com/jdc4429/Qwen3-TTS-Windows
+
+Link to Qwen3-TTS package: https://github.com/jdc4429/Qwen3-TTS-Windows
 
 Use the Powershell script from inside the conda env to install.<br>
-
-The script may fail with an error stating requirements.txt failed but in my case it did install correctly, I just reran the<br>
-script again to get to completion message.  Doing pip install -r requirements.txt did not make any changes or give any errors.<br>
 <br>
 ```bash
-conda create -n TTS python=3.10.20 -y
-conda activate TTS
+conda create -n GPT python=3.10.20 -y
+conda activate GPT
 ```
 ```bash
 git clone https://github.com/jdc4429/GPT-SoVITS-V2ProPlus-Windows.git
@@ -70,7 +67,7 @@ For UVR5 (Vocals/Accompaniment Separation & Reverberation Removal, additionally)
 ffmpeg.exe - Entry Point Not Found - The procedure entry point libintl_bind_textdomain_codeset could not be located in the dynamic link library C:\Users\jeffc\anaconda3\envs\SoVITS\Library\bin\gdk_pixbuf-2.0-0.dll.
 
 Fix:<br>
-conda activate TTS<br>
+conda activate GPT<br>
 conda install libglib=2.78.4=*_0 gdk-pixbuf -c conda-forge --force-reinstall<br>
 <br>
 
