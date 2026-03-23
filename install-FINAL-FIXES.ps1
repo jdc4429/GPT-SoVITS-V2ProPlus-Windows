@@ -4,6 +4,7 @@ Param (
     [switch]$DownloadUVR5
 )
 $global:ErrorActionPreference = 'Stop'
+#$env:PYTHONWARNINGS = "ignore"
 
 function Write-ErrorLog {
     param (
@@ -194,23 +195,23 @@ if ($DownloadUVR5) {
 switch ($Device) {
     "CU124" {
         Write-Info "Installing PyTorch For CUDA 12.4..."
-        Invoke-Pip torch torchcodec --index-url "https://download.pytorch.org/whl/cu124"
+        Invoke-Pip torch --index-url "https://download.pytorch.org/whl/cu124"
     }
     "CU126" {
         Write-Info "Installing PyTorch For CUDA 12.6..."
-        Invoke-Pip torch torchcodec --index-url "https://download.pytorch.org/whl/cu126"
+        Invoke-Pip torch --index-url "https://download.pytorch.org/whl/cu126"
     }
     "CU128" {
         Write-Info "Installing PyTorch For CUDA 12.8..."
-        Invoke-Pip torch torchcodec --index-url "https://download.pytorch.org/whl/cu128"
+        Invoke-Pip torch --index-url "https://download.pytorch.org/whl/cu128"
     }
     "CU130" {
         Write-Info "Installing PyTorch For CUDA 13.0..."
-        Invoke-Pip torch torchcodec --index-url "https://download.pytorch.org/whl/cu130"
+        Invoke-Pip torch --index-url "https://download.pytorch.org/whl/cu130"
     }
     "CPU" {
         Write-Info "Installing PyTorch For CPU..."
-        Invoke-Pip torch torchcodec --index-url "https://download.pytorch.org/whl/cpu"
+        Invoke-Pip torch --index-url "https://download.pytorch.org/whl/cpu"
     }
 }
 Write-Success "PyTorch Installed"
@@ -218,6 +219,7 @@ Write-Info "Installing Python Dependencies From requirements.txt..."
 Invoke-Pip -r extra-req.txt --no-deps
 $global:ErrorActionPreference = 'Continue'
 Invoke-Pip -r requirements.txt
+Invoke-Pip fastapi==0.115.0 starlette==0.38.0 gradio==4.44.1 jinja2==3.1.4
 Write-Success "Python Dependencies Installed"
 $global:ErrorActionPreference = 'Stop'
 $nltkTarget = (python -c "import sys; print(sys.prefix)").Trim()
