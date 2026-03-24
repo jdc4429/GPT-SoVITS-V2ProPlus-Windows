@@ -238,28 +238,28 @@ def kill_process(pid, process_name=""):
         subprocess.run(cmd, shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     else:
         kill_proc_tree(pid)
-    print(process_name + i18n("The process has been terminated"))
+    print(process_name + i18n(" The process has been terminated"))
 
 
 def process_info(process_name="", indicator=""):
     if indicator == "opened":
-        return process_name + i18n("Already turned on")
+        return process_name + i18n(" Already turned on")
     elif indicator == "open":
-        return i18n("Turn on") + process_name
+        return i18n("Turn on ") + process_name
     elif indicator == "closed":
-        return process_name + i18n("Closed")
+        return process_name + i18n(" Closed")
     elif indicator == "close":
-        return i18n("Close") + process_name
+        return i18n("Close ") + process_name
     elif indicator == "running":
-        return process_name + i18n("Running")
+        return process_name + i18n(" Running")
     elif indicator == "occupy":
-        return process_name + i18n("Occupied") + "," + i18n("You need to stop it first before starting the next task.")
+        return process_name + i18n(" Occupied ") + "," + i18n("You need to stop it first before starting the next task.")
     elif indicator == "finish":
-        return process_name + i18n("Completed")
+        return process_name + i18n(" Completed")
     elif indicator == "failed":
-        return process_name + i18n("Failure")
+        return process_name + i18n(" Failure")
     elif indicator == "info":
-        return process_name + i18n("Process output information")
+        return process_name + i18n(" Process output information")
     else:
         return process_name
 
