@@ -73,7 +73,7 @@ POST:
 RESP: 无
 
 
-### 切换GPT模型
+### Switch GPT model
 
 endpoint: `/set_gpt_weights`
 
