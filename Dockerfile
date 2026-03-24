@@ -58,3 +58,4 @@ CMD ["/bin/bash", "-c", "\
   ln -s /workspace/models/asr_models /workspace/GPT-SoVITS/tools/asr/models && \
   ln -s /workspace/models/uvr5_weights /workspace/GPT-SoVITS/tools/uvr5/uvr5_weights && \
   exec bash"]
+  
