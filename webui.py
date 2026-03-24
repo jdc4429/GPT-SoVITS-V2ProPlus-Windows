@@ -1401,7 +1401,7 @@ with gr.Blocks(title="GPT-SoVITS WebUI", analytics_enabled=False, js=js, css=css
                     with gr.Column(scale=3):
                         with gr.Row():
                             asr_inp_dir = gr.Textbox(
-                                label=i18n("Enter folder path"), value="C:\\GPT-SoVITS-V2ProPlus-Windows\\Train", interactive=True
+                                label=i18n("Enter folder path"), value="output/slicer_opt", interactive=True
                             )
                             asr_opt_dir = gr.Textbox(
                                 label=i18n("Output folder path"), value="output/asr_opt", interactive=True
@@ -1468,7 +1468,7 @@ with gr.Blocks(title="GPT-SoVITS WebUI", analytics_enabled=False, js=js, css=css
                         with gr.Row():
                             path_list = gr.Textbox(
                                 label=i18n("Annotation file path (including file extension *.list)"),
-                                value="C:\\GPT-SoVITS-V2ProPlus-Windows\\train.list",
+                                value="output/asr_opt/slicer_opt.list",
                                 interactive=True,
                             )
                             label_info = gr.Textbox(label=process_info(process_name_subfix, "info"))
@@ -1541,17 +1541,17 @@ with gr.Blocks(title="GPT-SoVITS WebUI", analytics_enabled=False, js=js, css=css
                         with gr.Row():
                             inp_text = gr.Textbox(
                                 label=i18n("*Text Annotation File"),
-                                value=r"C:\GPT-SoVITS-V2ProPlus-Windows\train.list",
+                                value=r"output/asr_opt/slicer_opt.list",
                                 interactive=True,
                                 scale=10,
                             )
                         with gr.Row():
                             inp_wav_dir = gr.Textbox(
-                                label=i18n("*Training set audio file directory"),
-                                # value=r"C:\GPT-SoVITS-V2ProPlus-Windows\Train",
+                                label=i18n("*Folder containing your audio training data"),
+                                # value=r"",
                                 interactive=True,
                                 placeholder=i18n(
-                                    "Fill in the directory where the cut audio is located! The complete path of the audio file to be read = this directory concatenated with the waveform file name in the list file (not the full path). If left blank, the absolute full path in the .list file will be used.。"
+                                    "If left blank, the absolute full path in the .list file will be used."
                                 ),
                                 scale=10,
                             )
