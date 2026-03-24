@@ -1,5 +1,5 @@
 Param (
-    [Parameter(Mandatory=$true)][ValidateSet("CU124", "CU126", "CU128", "CU130", "CPU")][string]$Device,
+    [Parameter(Mandatory=$true)][ValidateSet("CU126", "CU128", "CU130", "CPU")][string]$Device,
     [Parameter(Mandatory=$true)][ValidateSet("HF", "HF-Mirror", "ModelScope")][string]$Source,
     [switch]$DownloadUVR5
 )
@@ -190,10 +190,6 @@ if ($DownloadUVR5) {
     }
 }
 switch ($Device) {
-    "CU124" {
-        Write-Info "Installing PyTorch For CUDA 12.4..."
-        Invoke-Pip torch==2.6.0 torchvision==0.21.0 torchaudio==2.6.0 --index-url "https://download.pytorch.org/whl/cu124"
-    }
     "CU126" {
         Write-Info "Installing PyTorch For CUDA 12.6..."
         Invoke-Pip torch==2.9.1 torchvision==0.24.1 torchaudio==2.9.1 --index-url "https://download.pytorch.org/whl/cu126"
@@ -214,7 +210,8 @@ switch ($Device) {
 Write-Success "PyTorch Installed"
 Write-Info "Installing Python Dependencies From requirements.txt..."
 Invoke-Pip -r extra-req.txt --no-deps
-Invoke-Conda conda install -c conda-forge "torchcodec=0.9"
+Invoke-Pip torchcodec==0.10 --no-deps
+#Invoke-Conda torchcodec==0.10 --no-deps
 $global:ErrorActionPreference = 'Continue'
 Invoke-Pip -r requirements.txt
 Invoke-Pip fastapi==0.115.0 starlette==0.38.0 gradio==4.44.1 jinja2==3.1.4
