@@ -88,7 +88,7 @@ from tools.my_utils import check_details, check_for_existance
 
 os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
 
-# os.environ['PYTORCH_ENABLE_MPS_FALLBACK'] = '1' # 当遇到mps不支持的步骤时使用cpu
+# os.environ['PYTORCH_ENABLE_MPS_FALLBACK'] = '1' # Use the CPU when encountering steps not supported by MPS
 import gradio as gr
 
 n_cpu = cpu_count()
@@ -142,7 +142,7 @@ gpus = "-".join(map(str, GPU_INDEX))
 default_gpu_numbers = infer_device.index
 
 
-def fix_gpu_number(input):  # 将越界的number强制改到界内
+def fix_gpu_number(input):  # Force the out-of-range number to be within the boundary
     try:
         if int(input) not in set_gpu_numbers:
             return default_gpu_numbers
@@ -177,7 +177,7 @@ def check_pretrained_is_exist(version):
         if "s2Dv3" not in i and "s2Dv4" not in i and os.path.exists(i) == False:
             _ += f"\n    {i}"
     if _:
-        print("warning: ", i18n("以下模型不存在:") + _)
+        print("warning: ", i18n("The following model does not exist:") + _)
 
 
 check_pretrained_is_exist(version)
@@ -238,33 +238,33 @@ def kill_process(pid, process_name=""):
         subprocess.run(cmd, shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     else:
         kill_proc_tree(pid)
-    print(process_name + i18n("进程已终止"))
+    print(process_name + i18n("The process has been terminated"))
 
 
 def process_info(process_name="", indicator=""):
     if indicator == "opened":
-        return process_name + i18n("已开启")
+        return process_name + i18n("Already turned on")
     elif indicator == "open":
-        return i18n("开启") + process_name
+        return i18n("Turn on") + process_name
     elif indicator == "closed":
-        return process_name + i18n("已关闭")
+        return process_name + i18n("Closed")
     elif indicator == "close":
-        return i18n("关闭") + process_name
+        return i18n("Close") + process_name
     elif indicator == "running":
-        return process_name + i18n("运行中")
+        return process_name + i18n("Running")
     elif indicator == "occupy":
-        return process_name + i18n("占用中") + "," + i18n("需先终止才能开启下一次任务")
+        return process_name + i18n("Occupied") + "," + i18n("You need to stop it first before starting the next task.")
     elif indicator == "finish":
-        return process_name + i18n("已完成")
+        return process_name + i18n("Completed")
     elif indicator == "failed":
-        return process_name + i18n("失败")
+        return process_name + i18n("Failure")
     elif indicator == "info":
-        return process_name + i18n("进程输出信息")
+        return process_name + i18n("Process output information")
     else:
         return process_name
 
 
-process_name_subfix = i18n("音频标注WebUI")
+process_name_subfix = i18n("Audio Annotation WebUI")
 
 
 def change_label(path_list):
@@ -295,7 +295,7 @@ def change_label(path_list):
         )
 
 
-process_name_uvr5 = i18n("人声分离WebUI")
+process_name_uvr5 = i18n("Vocal Separation WebUI")
 
 
 def change_uvr5():
@@ -325,7 +325,7 @@ def change_uvr5():
         )
 
 
-process_name_tts = i18n("TTS推理WebUI")
+process_name_tts = i18n("TTS Inference WebUI")
 
 
 def change_tts_inference(bert_path, cnhubert_base_path, gpu_number, gpt_path, sovits_path, batched_infer_enabled):
@@ -334,7 +334,7 @@ def change_tts_inference(bert_path, cnhubert_base_path, gpu_number, gpt_path, so
         cmd = '"%s" -s GPT_SoVITS/inference_webui_fast.py "%s"' % (python_exec, language)
     else:
         cmd = '"%s" -s GPT_SoVITS/inference_webui.py "%s"' % (python_exec, language)
-    # #####v3暂不支持加速推理
+    # #####v3 does not currently support accelerated inference
     # if version=="v3":
     #     cmd = '"%s" GPT_SoVITS/inference_webui.py "%s"'%(python_exec, language)
     if p_tts_inference is None:
@@ -365,7 +365,7 @@ def change_tts_inference(bert_path, cnhubert_base_path, gpu_number, gpt_path, so
 
 from tools.asr.config import asr_dict
 
-process_name_asr = i18n("语音识别")
+process_name_asr = i18n("Speech Recognition")
 
 
 def open_asr(asr_inp_dir, asr_opt_dir, asr_model, asr_model_size, asr_lang, asr_precision):
@@ -426,7 +426,7 @@ def close_asr():
     )
 
 
-process_name_denoise = i18n("语音降噪")
+process_name_denoise = i18n("Voice Noise Reduction")
 
 
 def open_denoise(denoise_inp_dir, denoise_opt_dir):
@@ -483,7 +483,7 @@ def close_denoise():
 
 
 p_train_SoVITS = None
-process_name_sovits = i18n("SoVITS训练")
+process_name_sovits = i18n("SoVITS Training")
 
 
 def open1Ba(
@@ -584,7 +584,7 @@ def close1Ba():
 
 
 p_train_GPT = None
-process_name_gpt = i18n("GPT训练")
+process_name_gpt = i18n("GPT training")
 
 
 def open1Bb(
@@ -676,7 +676,7 @@ def close1Bb():
 
 
 ps_slice = []
-process_name_slice = i18n("语音切分")
+process_name_slice = i18n("Speech Segmentation")
 
 
 def open_slice(inp, opt_root, threshold, min_length, min_interval, hop_size, max_sil_kept, _max, alpha, n_parts):
@@ -686,7 +686,7 @@ def open_slice(inp, opt_root, threshold, min_length, min_interval, hop_size, max
     check_for_existance([inp])
     if os.path.exists(inp) == False:
         yield (
-            i18n("输入路径不存在"),
+            i18n("The input path does not exist"),
             {"__type__": "update", "visible": True},
             {"__type__": "update", "visible": False},
             {"__type__": "update"},
@@ -700,7 +700,7 @@ def open_slice(inp, opt_root, threshold, min_length, min_interval, hop_size, max
         pass
     else:
         yield (
-            i18n("输入路径存在但不可用"),
+            i18n("The input path exists but is not available"),
             {"__type__": "update", "visible": True},
             {"__type__": "update", "visible": False},
             {"__type__": "update"},
