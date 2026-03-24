@@ -243,7 +243,7 @@ def kill_process(pid, process_name=""):
 
 def process_info(process_name="", indicator=""):
     if indicator == "opened":
-        return process_name + i18n(" Already turned on")
+        return process_name + i18n(" Turned On")
     elif indicator == "open":
         return i18n("Turn on ") + process_name
     elif indicator == "closed":
