@@ -40,13 +40,7 @@ The script takes quite a while to run as it has to download many GB's for the mo
 -----------------------------------------------------
 | Python Version | PyTorch Version  | Device        |
 | -------------- | ---------------- | ------------- |
-| Python 3.10    | PyTorch 2.5.1    | CUDA 12.4     |
-| Python 3.11    | PyTorch 2.5.1    | CUDA 12.4     |
-| Python 3.11    | PyTorch 2.7.0    | CUDA 12.8     |
-| Python 3.9     | PyTorch 2.8.0dev | CUDA 12.8     |
-| Python 3.9     | PyTorch 2.5.1    | Apple silicon |
-| Python 3.11    | PyTorch 2.7.0    | Apple silicon |
-| Python 3.9     | PyTorch 2.2.2    | CPU           |
+| Python 3.10    | PyTorch 2.9.1    | CUDA 12.6     |
 -----------------------------------------------------
 
 #### Environment Variables:<br>
