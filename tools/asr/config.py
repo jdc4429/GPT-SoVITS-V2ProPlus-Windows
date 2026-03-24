@@ -13,11 +13,11 @@ def get_models():
 
 
 asr_dict = {
-    "达摩 ASR (中文)": {"lang": ["zh", "yue"], "size": ["large"], "path": "funasr_asr.py", "precision": ["float32"]},
-    "Faster Whisper (多语种)": {
+    "Faster Whisper (Multilingual)": {
         "lang": ["auto", "en", "ja", "ko"],
         "size": get_models(),
         "path": "fasterwhisper_asr.py",
         "precision": ["float32", "float16", "int8"],
     },
+    "Dharma ASR (Chinese)": {"lang": ["zh", "yue"], "size": ["large"], "path": "funasr_asr.py", "precision": ["float32"]},
 }

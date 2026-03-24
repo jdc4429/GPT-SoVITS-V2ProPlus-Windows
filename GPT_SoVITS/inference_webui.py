@@ -1182,7 +1182,7 @@ with gr.Blocks(title="GPT-SoVITS WebUI", analytics_enabled=False, js=js, css=css
                 prompt_language = gr.Dropdown(
                     label=i18n("参考音频的语种"),
                     choices=list(dict_language.keys()),
-                    value=i18n("中文"),
+                    value=i18n("英文"),
                 )
                 inp_refs = (
                     gr.File(
@@ -1230,7 +1230,7 @@ with gr.Blocks(title="GPT-SoVITS WebUI", analytics_enabled=False, js=js, css=css
                 text_language = gr.Dropdown(
                     label=i18n("需要合成的语种") + i18n(".限制范围越小判别效果越好。"),
                     choices=list(dict_language.keys()),
-                    value=i18n("中文"),
+                    value=i18n("英文"),
                     scale=1,
                 )
                 how_to_cut = gr.Dropdown(
