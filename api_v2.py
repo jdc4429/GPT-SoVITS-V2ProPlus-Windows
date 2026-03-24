@@ -1,21 +1,21 @@
 """
-# WebAPI文档
+# WebAPI Documentation
 
 ` python api_v2.py -a 127.0.0.1 -p 9880 -c GPT_SoVITS/configs/tts_infer.yaml `
 
-## 执行参数:
-    `-a` - `绑定地址, 默认"127.0.0.1"`
-    `-p` - `绑定端口, 默认9880`
-    `-c` - `TTS配置文件路径, 默认"GPT_SoVITS/configs/tts_infer.yaml"`
+## Execution Parameters:
+`-a` - `Binding address, default is "127.0.0.1"`
+`-p` - `Binding port, default is 9880`
+`-c` - `TTS configuration file path, default is "GPT_SoVITS/configs/tts_infer.yaml"`
 
-## 调用:
+## Invocation:
 
-### 推理
+### Inference
 
 endpoint: `/tts`
 GET:
 ```
-http://127.0.0.1:9880/tts?text=先帝创业未半而中道崩殂，今天下三分，益州疲弊，此诚危急存亡之秋也。&text_lang=zh&ref_audio_path=archive_jingyuan_1.wav&prompt_lang=zh&prompt_text=我是「罗浮」云骑将军景元。不必拘谨，「将军」只是一时的身份，你称呼我景元便可&text_split_method=cut5&batch_size=1&media_type=wav&streaming_mode=true
+The late emperor began his enterprise but passed away before completing it. Today, the empire is divided into three, and Yizhou is weakened. This is truly a critical moment for survival. I am General Jingyuan of the 'Luofu' Cloud Cavalry. No need to be formal; 'General' is just a temporary title. You can simply call me Jingyuan.
 ```
 
 POST:
@@ -48,16 +48,16 @@ POST:
 ```
 
 RESP:
-成功: 直接返回 wav 音频流， http code 200
-失败: 返回包含错误信息的 json, http code 400
+Success: Directly return the wav audio stream, HTTP code 200
+Failure: Return JSON containing error information, HTTP code 400
 
-### 命令控制
+### Command Control
 
 endpoint: `/control`
 
 command:
-"restart": 重新运行
-"exit": 结束运行
+"restart": Restart
+"exit": End execution
 
 GET:
 ```

@@ -5,103 +5,104 @@
 
 ## 执行参数:
 
-`-s` - `SoVITS模型路径, 可在 config.py 中指定`
-`-g` - `GPT模型路径, 可在 config.py 中指定`
+`-s` - `SoVITS model path, can be specified in config.py`
+`-g` - `GPT model path, can be specified in config.py`
 
-调用请求缺少参考音频时使用
-`-dr` - `默认参考音频路径`
-`-dt` - `默认参考音频文本`
-`-dl` - `默认参考音频语种, "中文","英文","日文","韩文","粤语,"zh","en","ja","ko","yue"`
+Use when the call request lacks reference audio
+`-dr` - `default reference audio path`
+`-dt` - `default reference audio text`
+`-dl` - `default reference audio language, "Chinese", "English", "Japanese", "Korean", "Cantonese", "zh", "en", "ja", "ko", "yue"`
 
-`-d` - `推理设备, "cuda","cpu"`
-`-a` - `绑定地址, 默认"127.0.0.1"`
-`-p` - `绑定端口, 默认9880, 可在 config.py 中指定`
-`-fp` - `覆盖 config.py 使用全精度`
-`-hp` - `覆盖 config.py 使用半精度`
-`-sm` - `流式返回模式, 默认不启用, "close","c", "normal","n", "keepalive","k"`
-·-mt` - `返回的音频编码格式, 流式默认ogg, 非流式默认wav, "wav", "ogg", "aac"`
-·-st` - `返回的音频数据类型, 默认int16, "int16", "int32"`
-·-cp` - `文本切分符号设定, 默认为空, 以",.，。"字符串的方式传入`
+`-d` - `inference device, "cuda", "cpu"`
+`-a` - `binding address, default "127.0.0.1"`
+`-p` - `binding port, default 9880, can be specified in config.py`
+`-fp` - `override config.py to use full precision`
+`-hp` - `override config.py to use half precision`
+`-sm` - `streaming return mode, disabled by default, "close","c", "normal","n", "keepalive","k"`
+`-mt` - `returned audio encoding format, default ogg for streaming, default wav for non-streaming, "wav", "ogg", "aac"`
+`-st` - `returned audio data type, default int16, "int16", "int32"`
+`-cp` - `text delimiter setting, default empty, passed as a string like ",.，。"`
 
-`-hb` - `cnhubert路径`
-`-b` - `bert路径`
+`-hb` - `cnhubert path`
+`-b` - `bert path`
 
-## 调用:
+## Call:
 
-### 推理
+### Reasoning
 
 endpoint: `/`
 
-使用执行参数指定的参考音频:
+Use the reference audio specified by the execution parameter:
 GET:
-    `http://127.0.0.1:9880?text=先帝创业未半而中道崩殂，今天下三分，益州疲弊，此诚危急存亡之秋也。&text_language=zh`
+'http://127.0.0.1:9880?text=The late emperor collapsed in the middle of the business before he was halfway there, and now the world is divided into three parts, and Yizhou is exhausted, which is indeed a critical moment for survival. &text_language=zh`
 POST:
 ```json
 {
-    "text": "先帝创业未半而中道崩殂，今天下三分，益州疲弊，此诚危急存亡之秋也。",
-    "text_language": "zh"
+"text": "The late emperor collapsed in the middle of the business before he was halfway there, and now the world is divided into three parts, and Yizhou is exhausted, which is indeed a critical time for survival." ,
+"text_language": "zh"
+}
+```
+Specify the reference audio using the execution parameters and set the delimiters:
+GET:
+`http://127.0.0.1:9880?text=The late emperor's enterprise was not yet half accomplished when he passed away midway, and today the realm is divided into three, Yizhou is exhausted, this is truly a critical moment of survival and peril.&text_language=zh&cut_punc=，。`
+POST:
+```json
+{
+"text": "The late emperor's enterprise was not yet half accomplished when he passed away midway, and today the realm is divided into three, Yizhou is exhausted, this is truly a critical moment of survival and peril.",
+"text_language": "zh",
+"cut_punc": "，。"
 }
 ```
 
-使用执行参数指定的参考音频并设定分割符号:
+Manually specify the reference audio to be used for this inference:
 GET:
-    `http://127.0.0.1:9880?text=先帝创业未半而中道崩殂，今天下三分，益州疲弊，此诚危急存亡之秋也。&text_language=zh&cut_punc=，。`
+`http://127.0.0.1:9880?refer_wav_path=123.wav&prompt_text=One two three.&prompt_language=zh&text=The late emperor's enterprise was not yet half accomplished when he passed away midway, and today the realm is divided into three, Yizhou is exhausted, this is truly a critical moment of survival and peril.&text_language=zh`
 POST:
 ```json
 {
-    "text": "先帝创业未半而中道崩殂，今天下三分，益州疲弊，此诚危急存亡之秋也。",
-    "text_language": "zh",
-    "cut_punc": "，。",
+"refer_wav_path": "123.wav",
+"prompt_text": "One two three.",
+"prompt_language": "zh",
+"text": "The late emperor's enterprise was not yet half accomplished when he passed away midway, and today the realm is divided into three, Yizhou is exhausted, this is truly a critical moment of survival and peril.",
+"text_language": "zh"
 }
 ```
-
-手动指定当次推理所使用的参考音频:
-GET:
-    `http://127.0.0.1:9880?refer_wav_path=123.wav&prompt_text=一二三。&prompt_language=zh&text=先帝创业未半而中道崩殂，今天下三分，益州疲弊，此诚危急存亡之秋也。&text_language=zh`
-POST:
-```json
-{
-    "refer_wav_path": "123.wav",
-    "prompt_text": "一二三。",
-    "prompt_language": "zh",
-    "text": "先帝创业未半而中道崩殂，今天下三分，益州疲弊，此诚危急存亡之秋也。",
-    "text_language": "zh"
-}
-```
-
-RESP:
-成功: 直接返回 wav 音频流， http code 200
-失败: 返回包含错误信息的 json, http code 400
-
-手动指定当次推理所使用的参考音频，并提供参数:
-GET:
-    `http://127.0.0.1:9880?refer_wav_path=123.wav&prompt_text=一二三。&prompt_language=zh&text=先帝创业未半而中道崩殂，今天下三分，益州疲弊，此诚危急存亡之秋也。&text_language=zh&top_k=20&top_p=0.6&temperature=0.6&speed=1&inp_refs="456.wav"&inp_refs="789.wav"`
-POST:
-```json
-{
-    "refer_wav_path": "123.wav",
-    "prompt_text": "一二三。",
-    "prompt_language": "zh",
-    "text": "先帝创业未半而中道崩殂，今天下三分，益州疲弊，此诚危急存亡之秋也。",
-    "text_language": "zh",
-    "top_k": 20,
-    "top_p": 0.6,
-    "temperature": 0.6,
-    "speed": 1,
-    "inp_refs": ["456.wav","789.wav"]
 }
 ```
 
 RESP:
-成功: 直接返回 wav 音频流， http code 200
-失败: 返回包含错误信息的 json, http code 400
+Success: Directly return the wav audio stream, http code 200
+Failure: Return a json containing error information, http code 400
+
+Manually specify the reference audio used for this inference, and provide parameters:
+GET:
+`http://127.0.0.1:9880?refer_wav_path=123.wav&prompt_text=123.&prompt_language=zh&text=The former emperor started his enterprise but passed away midway, now the world is divided into three, Yizhou is exhausted, this is truly a critical moment of life and death.&text_language=zh&top_k=20&top_p=0.6&temperature=0.6&speed=1&inp_refs="456.wav"&inp_refs="789.wav"`
+POST:
+```json
+{
+"refer_wav_path": "123.wav",
+"prompt_text": "123.",
+"prompt_language": "zh",
+"text": "The former emperor started his enterprise but passed away midway, now the world is divided into three, Yizhou is exhausted, this is truly a critical moment of life and death.",
+"text_language": "zh",
+"top_k": 20,
+"top_p": 0.6,
+"temperature": 0.6,
+"speed": 1,
+"inp_refs": ["456.wav","789.wav"]
+}
+```
+
+RESP:
+Success: Directly return the wav audio stream, http code 200
+Failure: Return a json containing error information, http code 400
 
 
-### 更换默认参考音频
+### Change Default Reference Audio
 
 endpoint: `/change_refer`
 
-key与推理端一样
+key is the same as the inference endpoint
 
 GET:
     `http://127.0.0.1:9880/change_refer?refer_wav_path=123.wav&prompt_text=一二三。&prompt_language=zh`
@@ -115,17 +116,16 @@ POST:
 ```
 
 RESP:
-成功: json, http code 200
-失败: json, 400
+Success: json, http code 200
+Failure: json, 400
 
-
-### 命令控制
+### Command Control
 
 endpoint: `/control`
 
 command:
-"restart": 重新运行
-"exit": 结束运行
+"restart": restart
+"exit": terminate
 
 GET:
     `http://127.0.0.1:9880/control?command=restart`
@@ -136,7 +136,7 @@ POST:
 }
 ```
 
-RESP: 无
+RESP: None
 
 """
 
