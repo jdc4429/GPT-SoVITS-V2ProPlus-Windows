@@ -38,7 +38,7 @@ I personally remove any sliced clips that are 3 seconds or under.  We want the s
 
 Training data (For 8GB VRAM) cannot be too large or you will get a CUDA OOM error. The largest set I have been successful 
 in generating is 1 minute and 30 seconds long. Audio data size is 8.24MB or 8852KB - Also you can't have any audio clips 
-over 20 seconds long or it will crash (For 8GB VRAM). Higher VRAM means you can do bigger data sets and use longer audio clips.
+over 20 seconds longer or it will crash (For 8GB VRAM). Higher VRAM means you can do bigger data sets and use longer audio clips.
 
 Copy the slicer_opt.list file (from C:\GPT-SoVITS-V2ProPlus-Windows\output\slicer_opt) to the C:\Qwen3-TTS-Windows root folder.
 That is all we need GPT-SoVITS for when using Qwen3-TTS for the voice cloning.
