@@ -60,8 +60,10 @@ function Invoke-Conda {
         [Parameter(ValueFromRemainingArguments = $true)]
         [string[]]$Args
     )
-
-    & conda install -y -c conda-forge $Args
+    # Use --solver=libmamba to prevent the infinite "Solving environment" loop on Windows
+    # We also use --no-update-deps to stop conda from trying to fix the whole world
+    # Must be using conda 23.10.0 or later!
+    & conda install -y -c conda-forge --solver=libmamba --no-update-deps $Args
 }
 function Invoke-Pip {
     param (
