@@ -1414,13 +1414,22 @@ with gr.Blocks(title="GPT-SoVITS WebUI", analytics_enabled=False, js=js, css=css
                                 value="Faster Whisper (Multilingual)",
                             )
                             asr_size = gr.Dropdown(
-                                label=i18n("ASR model size"), choices=["large"], interactive=True, value="large"
+                                label=i18n("ASR model size"),
+                                choices=asr_dict["Faster Whisper (Multilingual)"]["size"],
+                                interactive=True,
+                                value=asr_dict["Faster Whisper (Multilingual)"]["size"][-1],
                             )
                             asr_lang = gr.Dropdown(
-                                label=i18n("ASR Language Settings"), choices=["zh", "yue"], interactive=True, value="zh"
+                                label=i18n("ASR Language Settings"),
+                                choices=asr_dict["Faster Whisper (Multilingual)"]["lang"],
+                                interactive=True,
+                                value="en",
                             )
                             asr_precision = gr.Dropdown(
-                                label=i18n("Data type precision"), choices=["float32"], interactive=True, value="float32"
+                                label=i18n("Data type precision"),
+                                choices=asr_dict["Faster Whisper (Multilingual)"]["precision"],
+                                interactive=True,
+                                value="float16" if is_half else "float32",
                             )
                         with gr.Row():
                             asr_info = gr.Textbox(label=process_info(process_name_asr, "info"))
