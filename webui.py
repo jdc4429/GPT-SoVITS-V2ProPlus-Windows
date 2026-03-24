@@ -1411,7 +1411,7 @@ with gr.Blocks(title="GPT-SoVITS WebUI", analytics_enabled=False, js=js, css=css
                                 label=i18n("ASR Model"),
                                 choices=list(asr_dict.keys()),
                                 interactive=True,
-                                value="Dharma ASR (Chinese)",
+                                value="Faster Whisper (Multilingual)",
                             )
                             asr_size = gr.Dropdown(
                                 label=i18n("ASR model size"), choices=["large"], interactive=True, value="large"
