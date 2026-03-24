@@ -126,8 +126,8 @@ function Invoke-Unzip {
 }
 chcp 65001
 if ($PSScriptRoot) { Set-Location $PSScriptRoot }
-Write-Info "Installing FFMPEG & CMAKE..."
-Invoke-Conda ffmpeg cmake
+Write-Info "Installing FFMPEG, CMAKE & Binary Fixes..."
+Invoke-Conda ffmpeg cmake libglib=2.78.4 gdk-pixbuf
 Write-Success "FFMPEG & CMAKE Installed"
 $PretrainedURL  = ""
 $G2PWURL        = ""
