@@ -277,4 +277,3 @@ jobs:
         docker buildx imagetools create \
           --tag ${{ vars.DOCKER_HUB_USERNAME }}/gpt-sovits:latest \
           ${{ vars.DOCKER_HUB_USERNAME }}/gpt-sovits:latest-cu126-lite
-        

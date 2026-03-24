@@ -162,7 +162,3 @@ Lower temperature = more consistent speed
 Better to do one/two/three sentences at a time instead of pages, then concatenate audio as the model tends to speed up the voice 
 the longer the amount of text to generate gets.  Note: Using the slicer in GPT-SoVITS appears to resolve this issue!
 I am now able to do 60 seconds clips without this annoying issue popping up.  The training audio you are using can still affect it.
-
-
-
-

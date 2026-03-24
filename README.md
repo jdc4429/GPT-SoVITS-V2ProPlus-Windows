@@ -72,5 +72,3 @@ Fix:<br>
 conda activate GPT<br>
 conda install libglib=2.78.4=*_0 gdk-pixbuf -c conda-forge --force-reinstall<br>
 <br>
-
-
