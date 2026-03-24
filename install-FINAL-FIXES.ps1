@@ -126,12 +126,9 @@ function Invoke-Unzip {
 }
 chcp 65001
 if ($PSScriptRoot) { Set-Location $PSScriptRoot }
-Write-Info "Installing CMake..."
-Invoke-Conda cmake
-Write-Success "FFmpeg & CMake Installed"
-Write-Info "Installing FFmpeg..."
-Invoke-Pip ffmpeg-python
-Write-Success "FFmpeg Installed"
+Write-Info "Installing FFMPEG & CMAKE..."
+Invoke-Conda ffmpeg cmake
+Write-Success "FFMPEG & CMAKE Installed"
 $PretrainedURL  = ""
 $G2PWURL        = ""
 $UVR5URL        = ""
@@ -217,7 +214,7 @@ switch ($Device) {
 Write-Success "PyTorch Installed"
 Write-Info "Installing Python Dependencies From requirements.txt..."
 Invoke-Pip -r extra-req.txt --no-deps
-Invoke-Pip torchcodec
+Invoke-Conda conda install -c conda-forge "torchcodec=0.9"
 $global:ErrorActionPreference = 'Continue'
 Invoke-Pip -r requirements.txt
 Invoke-Pip fastapi==0.115.0 starlette==0.38.0 gradio==4.44.1 jinja2==3.1.4
