@@ -210,8 +210,7 @@ switch ($Device) {
 Write-Success "PyTorch Installed"
 Write-Info "Installing Python Dependencies From requirements.txt..."
 Invoke-Pip -r extra-req.txt --no-deps
-Invoke-Pip torchcodec==0.10 --no-deps
-#Invoke-Conda torchcodec==0.10 --no-deps
+Invoke-Pip torchcodec==0.9.1 --no-deps
 $global:ErrorActionPreference = 'Continue'
 Invoke-Pip -r requirements.txt
 Invoke-Pip fastapi==0.115.0 starlette==0.38.0 gradio==4.44.1 jinja2==3.1.4
