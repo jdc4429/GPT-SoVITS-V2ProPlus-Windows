@@ -23,6 +23,8 @@ Powershell script: (Select from CU126, CU128, CU130) (Select from HF, HF-Mirror,
 <br>
 The script takes quite a while to run as it has to download many GB's for the models.<br>
 
+For help, see Usage Instructions.txt
+
 
 ## Features:<br>
 
@@ -42,6 +44,7 @@ The script takes quite a while to run as it has to download many GB's for the mo
 | -------------- | ---------------- | ------------- |
 | Python 3.10    | PyTorch 2.9.1    | CUDA 12.6     |
 -----------------------------------------------------
+
 
 #### Environment Variables:<br>
 
