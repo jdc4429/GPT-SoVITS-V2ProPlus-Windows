@@ -4,9 +4,9 @@ A Powerful Few-shot Voice Conversion and Text-to-Speech WebUI.<br>
 
 ## Install:<br>
 
-If you don't have Visual Studio or the redist package installed, then install this: [Visual Studio 2017](https://aka.ms/vs/17/release/vc_redist.x86.exe)
-
 Link to Qwen3-TTS package: https://github.com/jdc4429/Qwen3-TTS-Windows
+
+If you don't have Visual Studio or the redist package installed, then install this: [Visual Studio 2017](https://aka.ms/vs/17/release/vc_redist.x86.exe)
 
 Run the following commands to create an environment and install the neccessary files:
 
