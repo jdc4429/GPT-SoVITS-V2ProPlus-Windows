@@ -2,7 +2,7 @@
 A Powerful Few-shot Voice Conversion and Text-to-Speech WebUI.<br>
 
 
-## Install:<br>
+## Windows Install:<br>
 
 Link to Qwen3-TTS package: https://github.com/jdc4429/Qwen3-TTS-Windows
 
