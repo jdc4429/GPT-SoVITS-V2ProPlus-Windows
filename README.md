@@ -23,7 +23,7 @@ powershell -File install-FINAL-FIXES.ps1 -Device CU126 -Source HF
 ```
 Powershell script: (Select from CU126, CU128, CU130) (Select from HF, HF-Mirror, ModelScope)<br>
 <br>
-The script takes quite a while to run as it has to download many GB's for the models.<br>
+The script takes quite a while to run as it has to download many gigabytes (About 6.5GB) for the models.<br>
 
 For help, see Usage Instructions.txt
 
