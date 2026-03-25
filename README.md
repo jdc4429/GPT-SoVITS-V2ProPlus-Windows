@@ -22,7 +22,7 @@ cd GPT-SoVITS-V2ProPlus-Windows
 powershell -File install-FINAL-FIXES.ps1 -Device CU126 -Source HF 
 ```
 Powershell script: (Select from CU126, CU128, CU130) (Select from HF, HF-Mirror, ModelScope)<br>
-Optional flag to install Ultimate Voice Retrieval: --download-uvr5<br>
+Optional flag to install Ultimate Vocal Remover: --download-uvr5<br>
 <br>
 The script takes quite a while to run as it has to download many gigabytes (About 6.5GB) for the models.<br>
 
